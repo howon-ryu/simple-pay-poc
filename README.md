@@ -1,70 +1,78 @@
-# Getting Started with Create React App
+# AM One Pay - 간단 버전
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+AM One Pay의 핵심 기능을 구현한 React 프로젝트입니다.
 
-## Available Scripts
+## 🚀 주요 기능
 
-In the project directory, you can run:
+- **스플래시 화면** - 앱 로딩 및 브랜딩
+- **서비스 소개** - AM Pay 소개 및 PoC 설명  
+- **결제 프로세스** - 상품 선택부터 결제 완료까지
+- **카드 관리** - 카드 선택, 추가 다이얼로그
+- **PIN 입력** - 6자리 보안 키패드
+- **결제 결과** - 성공/실패 페이지
 
-### `npm start`
+## 🛠️ 기술 스택
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **React 18** - 함수형 컴포넌트, Hooks
+- **CSS Variables** - 디자인 시스템
+- **Local Storage** - 카드 정보 저장
+- **Responsive Design** - 모바일 우선
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 📁 프로젝트 구조
 
-### `npm test`
+```
+src/
+├── components/          # 재사용 가능한 컴포넌트
+│   ├── common/         # 공통 컴포넌트 (Header, Button, Dialog)
+│   ├── card/           # 카드 관련 컴포넌트
+│   └── payment/        # 결제 관련 컴포넌트
+├── pages/              # 페이지 컴포넌트
+├── hooks/              # 커스텀 훅
+├── utils/              # 유틸리티 함수
+└── styles/             # 스타일 파일
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🎮 사용법
 
-### `npm run build`
+### 설치 및 실행
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+# 의존성 설치
+npm install
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# 개발 서버 실행
+npm start
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# 빌드
+npm run build
+```
 
-### `npm run eject`
+### 테스트 시나리오
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. **스플래시** → 자동으로 인트로로 전환 (2초)
+2. **인트로** → "PoC 체크포인트 보기" 클릭
+3. **체크포인트** → "am pay 둘러보기" 클릭  
+4. **결제하기** → 카드 선택 후 "결제하기" 클릭
+5. **PIN 입력** → "123456" 입력 (성공), 다른 번호 (실패)
+6. **결과 확인** → 성공/실패 페이지
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 테스트 데이터
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- **성공 PIN**: `123456`
+- **기본 카드**: KB국민카드, 신한카드
+- **상품**: 갤럭시 S24 Ultra (1,398,000원)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 🎨 디자인 시스템
 
-## Learn More
+### 컬러 팔레트
+- **Primary**: #667eea (AM 브랜드 컬러)
+- **Secondary**: #764ba2  
+- **Success**: #28a745
+- **Error**: #dc3545
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 타이포그래피
+- **Font Family**: Pretendard
+- **Font Sizes**: 12px ~ 36px (CSS Variables)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### 간격 시스템
+- **Spacing**: 4px ~
