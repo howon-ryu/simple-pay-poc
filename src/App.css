@@ -1,0 +1,237 @@
+
+/* App specific styles */
+.app-container {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Page transitions */
+.page-enter {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 300ms ease-in, transform 300ms ease-in;
+}
+
+.page-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.page-exit-active {
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: opacity 300ms ease-out, transform 300ms ease-out;
+}
+
+/* Splash specific */
+.splash-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: var(--gradient-primary);
+  color: var(--text-white);
+  position: relative;
+  overflow: hidden;
+}
+
+.splash-screen::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.splash-logo {
+  font-size: var(--font-5xl);
+  font-weight: var(--font-bold);
+  margin-bottom: var(--spacing-xl);
+  z-index: 1;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.splash-subtitle {
+  font-size: var(--font-md);
+  opacity: 0.9;
+  z-index: 1;
+}
+
+/* Intro pages */
+.intro-wrapper {
+  padding: var(--spacing-4xl) var(--spacing-xl);
+  text-align: center;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.intro-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.intro-title {
+  font-size: var(--font-3xl);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-xl);
+}
+
+.intro-title .poc {
+  color: var(--primary-color);
+}
+
+.intro-title .point {
+  color: var(--text-primary);
+}
+
+.intro-description {
+  font-size: var(--font-md);
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-4xl);
+}
+
+.intro-description strong {
+  color: var(--text-primary);
+  font-weight: var(--font-semibold);
+}
+
+.intro-image {
+  width: 200px;
+  height: 200px;
+  background: var(--background-light);
+  border-radius: var(--radius-xl);
+  margin: 0 auto var(--spacing-4xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  box-shadow: var(--shadow-md);
+}
+
+/* Content wrapper */
+.content {
+  padding: var(--spacing-xl);
+  min-height: calc(100vh - 140px);
+}
+
+/* Card expired overlay */
+.credit-card .card-expired-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.7);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-white);
+  font-size: var(--font-sm);
+  font-weight: var(--font-semibold);
+}
+
+/* Loading animation */
+.loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid var(--border-light);
+  border-radius: 50%;
+  border-top-color: var(--primary-color);
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 320px) {
+  .intro-wrapper {
+    padding: var(--spacing-2xl) var(--spacing-md);
+  }
+  
+  .intro-title {
+    font-size: var(--font-2xl);
+  }
+  
+  .intro-image {
+    width: 150px;
+    height: 150px;
+    font-size: 36px;
+  }
+  
+  .keypad {
+    gap: var(--spacing-md);
+  }
+  
+  .keypad-btn {
+    width: 60px;
+    height: 60px;
+    font-size: var(--font-xl);
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .splash-screen::before {
+    animation: none;
+  }
+  
+  .page-enter-active,
+  .page-exit-active {
+    transition: none;
+  }
+  
+  .btn:hover,
+  .credit-card:hover,
+  .card-add:hover {
+    transform: none;
+  }
+}
+
+/* Focus styles */
+.btn:focus,
+.credit-card:focus,
+.card-add:focus,
+.keypad-btn:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .credit-card {
+    border: 2px solid var(--text-primary);
+  }
+  
+  .pin-dot {
+    border: 1px solid var(--text-primary);
+  }
+  
+  .btn-primary {
+    border: 2px solid var(--text-primary);
+  }
+}
+
