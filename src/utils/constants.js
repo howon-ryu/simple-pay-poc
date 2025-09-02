@@ -35,7 +35,7 @@ export const SAMPLE_CARDS = [
     company: CARD_COMPANIES.KB,
     type: CARD_TYPES.CREDIT,
     number: '**** **** **** 1234',
-    holder: '김앰원',
+    holder: 'howon',
     expiry: '12/26',
     isActive: true
   },

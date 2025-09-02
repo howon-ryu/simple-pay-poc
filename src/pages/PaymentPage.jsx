@@ -5,21 +5,23 @@ import ProductSection from '../components/payment/ProductSection';
 import PaymentSummary from '../components/payment/PaymentSummary';
 import CardList from '../components/card/CardList';
 import AddCardDialog from '../components/card/AddCardDialog';
+import ManualCardPage from './ManualCardPage';
 import { formatCurrency } from '../utils/formatters';
 import { ADD_CARD_METHODS } from '../utils/constants';
+import { useCard } from '../contexts/CardContext';
 
 const PaymentPage = ({ paymentData, onBack, onNext }) => {
   const [showAddCardDialog, setShowAddCardDialog] = useState(false);
+  const [showManualCardPage, setShowManualCardPage] = useState(false);
+  
+  // CardContext에서 카드 관련 데이터 가져오기
+  const { cards, selectedCard, selectCard, deleteCard, canPay, addCard } = useCard();
 
   const {
     product,
-    userCards,
-    selectedCard,
-    selectCard,
     totalAmount,
     shippingFee,
-    discount,
-    canPay
+    discount
   } = paymentData;
 
   const productAmount = product.price * product.count;
@@ -39,20 +41,38 @@ const PaymentPage = ({ paymentData, onBack, onNext }) => {
   };
 
   const handleAddCardMethod = (method) => {
-    let message = '';
     switch(method) {
-      case ADD_CARD_METHODS.SCAN:
-        message = '카드 스캔 기능을 실행합니다.';
-        break;
       case ADD_CARD_METHODS.MANUAL:
-        message = '카드 정보 직접 입력 페이지로 이동합니다.';
+        setShowManualCardPage(true);
+        break;
+      case ADD_CARD_METHODS.SCAN:
+        alert('카드 스캔 기능을 실행합니다.');
         break;
       case ADD_CARD_METHODS.APP:
-        message = '앱카드 등록 페이지로 이동합니다.';
+        alert('앱카드 등록 페이지로 이동합니다.');
         break;
     }
-    alert(message);
   };
+
+  const handleAddCard = (cardData) => {
+    addCard(cardData);
+    setShowManualCardPage(false);
+    alert('카드가 성공적으로 등록되었습니다.');
+  };
+
+  const handleBackFromManualCard = () => {
+    setShowManualCardPage(false);
+  };
+
+  // 카드 추가 페이지가 활성화된 경우
+  if (showManualCardPage) {
+    return (
+      <ManualCardPage 
+        onBack={handleBackFromManualCard}
+        onAddCard={handleAddCard}
+      />
+    );
+  }
 
   return (
     <>
@@ -101,9 +121,10 @@ const PaymentPage = ({ paymentData, onBack, onNext }) => {
             </div>
             
             <CardList
-              cards={userCards}
+              cards={cards}
               selectedCardId={selectedCard?.id}
               onCardSelect={selectCard}
+              onDeleteCard={deleteCard}
               onAddCard={() => setShowAddCardDialog(true)}
             />
           </div>

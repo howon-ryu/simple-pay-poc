@@ -5,6 +5,7 @@ const CardList = ({
   cards, 
   selectedCardId, 
   onCardSelect, 
+  onDeleteCard,
   onAddCard,
   className = '' 
 }) => {
@@ -16,6 +17,7 @@ const CardList = ({
           card={card}
           isSelected={selectedCardId === card.id}
           onClick={onCardSelect}
+          onDelete={onDeleteCard}
         />
       ))}
       

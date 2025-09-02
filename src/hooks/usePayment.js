@@ -1,11 +1,11 @@
 import { useState, useCallback } from 'react';
-import { useLocalStorage } from './useLocalStorage';
-import { SAMPLE_CARDS, SAMPLE_PRODUCT, PAYMENT_DETAILS, PIN_SETTINGS, STORAGE_KEYS } from '../utils/constants';
+import { SAMPLE_PRODUCT, PAYMENT_DETAILS, PIN_SETTINGS } from '../utils/constants';
 import { generateOrderNumber } from '../utils/formatters';
+import { useCard } from '../contexts/CardContext';
 
 export const usePayment = () => {
-  const [selectedCard, setSelectedCard] = useLocalStorage(STORAGE_KEYS.SELECTED_CARD, null);
-  const [userCards, setUserCards] = useLocalStorage(STORAGE_KEYS.USER_CARDS, SAMPLE_CARDS);
+  // CardContext에서 카드 정보 가져오기
+  const { selectedCard } = useCard();
   
   const [currentPin, setCurrentPin] = useState('');
   const [pinAttempts, setPinAttempts] = useState(0);
@@ -14,15 +14,6 @@ export const usePayment = () => {
 
   const [product] = useState(SAMPLE_PRODUCT);
   const totalAmount = product.price * product.count + PAYMENT_DETAILS.SHIPPING_FEE - PAYMENT_DETAILS.DISCOUNT;
-
-  const selectCard = useCallback((cardId) => {
-    const card = userCards.find(c => c.id === cardId);
-    if (card && card.isActive) {
-      setSelectedCard(card);
-      return true;
-    }
-    return false;
-  }, [userCards, setSelectedCard]);
 
   const inputPin = useCallback((digit) => {
     if (currentPin.length < PIN_SETTINGS.LENGTH) {
@@ -96,21 +87,22 @@ export const usePayment = () => {
   }, []);
 
   return {
-    selectedCard,
-    userCards,
+    // 결제 관련 상태
     currentPin,
     pinAttempts,
     paymentResult,
     isProcessing,
     product,
     totalAmount,
-    selectCard,
+    
+    // 결제 관련 함수들
     inputPin,
     clearPin,
     clearAllPin,
     processPayment,
     resetPayment,
-    canPay: selectedCard && selectedCard.isActive,
+    
+    // 유틸리티
     isPinComplete: currentPin.length === PIN_SETTINGS.LENGTH,
     shippingFee: PAYMENT_DETAILS.SHIPPING_FEE,
     discount: PAYMENT_DETAILS.DISCOUNT

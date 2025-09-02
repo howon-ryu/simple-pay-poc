@@ -18,7 +18,11 @@ import { STEPS } from './utils/constants';
 // Hooks
 import { usePayment } from './hooks/usePayment';
 
-function App() {
+// Contexts
+import { CardProvider } from './contexts/CardContext';
+
+// CardProvider 내부에서 사용할 메인 앱 컴포넌트
+const AppContent = () => {
   const [currentStep, setCurrentStep] = useState(STEPS.SPLASH);
   const paymentHook = usePayment();
 
@@ -112,6 +116,14 @@ function App() {
     <div className="app-container">
       {renderCurrentStep()}
     </div>
+  );
+};
+
+function App() {
+  return (
+    <CardProvider>
+      <AppContent />
+    </CardProvider>
   );
 }
 
