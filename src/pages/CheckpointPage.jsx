@@ -26,7 +26,7 @@ const CheckpointPage = ({ onBack, onNext }) => {
           <div className="intro-image">🎯</div>
         </div>
         
-        <div>
+        <div className="bottom-btn">
           <Button onClick={onNext}>
             am pay 둘러보기
           </Button>

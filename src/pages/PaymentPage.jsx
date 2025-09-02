@@ -6,6 +6,7 @@ import PaymentSummary from '../components/payment/PaymentSummary';
 import CardList from '../components/card/CardList';
 import AddCardDialog from '../components/card/AddCardDialog';
 import ManualCardPage from './ManualCardPage';
+import SuccessModal from '../components/common/SuccessModal';
 import { formatCurrency } from '../utils/formatters';
 import { ADD_CARD_METHODS } from '../utils/constants';
 import { useCard } from '../contexts/CardContext';
@@ -13,9 +14,11 @@ import { useCard } from '../contexts/CardContext';
 const PaymentPage = ({ paymentData, onBack, onNext }) => {
   const [showAddCardDialog, setShowAddCardDialog] = useState(false);
   const [showManualCardPage, setShowManualCardPage] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   
   // CardContext에서 카드 관련 데이터 가져오기
   const { cards, selectedCard, selectCard, deleteCard, canPay, addCard } = useCard();
+  
 
   const {
     product,
@@ -57,7 +60,7 @@ const PaymentPage = ({ paymentData, onBack, onNext }) => {
   const handleAddCard = (cardData) => {
     addCard(cardData);
     setShowManualCardPage(false);
-    alert('카드가 성공적으로 등록되었습니다.');
+    setShowSuccessModal(true);
   };
 
   const handleBackFromManualCard = () => {
@@ -202,6 +205,14 @@ const PaymentPage = ({ paymentData, onBack, onNext }) => {
         isOpen={showAddCardDialog}
         onClose={() => setShowAddCardDialog(false)}
         onSelectMethod={handleAddCardMethod}
+      />
+
+      {/* 카드 추가 성공 모달 */}
+      <SuccessModal
+        isOpen={showSuccessModal}
+        onClose={() => setShowSuccessModal(false)}
+        title="카드 등록 완료"
+        message="카드가 성공적으로 등록되었습니다."
       />
     </>
   );

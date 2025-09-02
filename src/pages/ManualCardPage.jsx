@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Header from '../components/common/Header';
 import Button from '../components/common/Button';
+import { CARD_COMPANIES } from '../utils/constants';
 
 const ManualCardPage = ({ onBack, onAddCard }) => {
   const [formData, setFormData] = useState({
@@ -9,7 +10,7 @@ const ManualCardPage = ({ onBack, onAddCard }) => {
     expiryYear: '',
     cvc: '',
     cardName: '',
-    bankName: ''
+    cardCompany: ''
   });
 
   const [errors, setErrors] = useState({});
@@ -80,11 +81,11 @@ const ManualCardPage = ({ onBack, onAddCard }) => {
     }
     
     if (!formData.cardName.trim()) {
-      newErrors.cardName = '카드 별칭을 입력해주세요';
+      newErrors.cardName = '소유자 이름을 입력해주세요';
     }
     
-    if (!formData.bankName.trim()) {
-      newErrors.bankName = '은행명을 입력해주세요';
+    if (!formData.cardCompany.trim()) {
+      newErrors.cardCompany = '카드사를 입력해주세요';
     }
 
     setErrors(newErrors);
@@ -109,7 +110,7 @@ const ManualCardPage = ({ onBack, onAddCard }) => {
       const maskedCardNumber = formData.cardNumber.replace(/(\d{4})\s(\d{4})\s(\d{4})\s(\d{4})/, '**** **** **** $4');
       
       const newCard = {
-        company: formData.bankName,
+        company: formData.cardCompany,
         type: 'credit', // 기본값으로 신용카드 설정
         number: maskedCardNumber,
         holder: formData.cardName,
@@ -220,32 +221,37 @@ const ManualCardPage = ({ onBack, onAddCard }) => {
               </div>
             </div>
 
-            {/* 카드 별칭 */}
+            {/* 소유자 */}
             <div>
-              <label style={labelStyle}>카드 별칭</label>
+              <label style={labelStyle}>소유자</label>
               <input
                 type="text"
                 name="cardName"
                 value={formData.cardName}
                 onChange={handleInputChange}
-                placeholder="예: 주거래 카드, 급여 카드"
+                placeholder="예: 홍길동, 김철수"
                 style={errors.cardName ? errorInputStyle : inputStyle}
               />
               {errors.cardName && <div style={errorStyle}>{errors.cardName}</div>}
             </div>
 
-            {/* 은행명 */}
+            {/* 카드사 */}
             <div>
-              <label style={labelStyle}>은행명</label>
-              <input
-                type="text"
-                name="bankName"
-                value={formData.bankName}
+              <label style={labelStyle}>카드사</label>
+              <select
+                name="cardCompany"
+                value={formData.cardCompany}
                 onChange={handleInputChange}
-                placeholder="예: KB국민은행, 신한은행"
-                style={errors.bankName ? errorInputStyle : inputStyle}
-              />
-              {errors.bankName && <div style={errorStyle}>{errors.bankName}</div>}
+                style={errors.cardCompany ? errorInputStyle : inputStyle}
+              >
+                <option value="">카드사를 선택해주세요</option>
+                {Object.entries(CARD_COMPANIES).map(([key, value]) => (
+                  <option key={key} value={value}>
+                    {value}
+                  </option>
+                ))}
+              </select>
+              {errors.cardCompany && <div style={errorStyle}>{errors.cardCompany}</div>}
             </div>
           </div>
         </form>

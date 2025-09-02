@@ -9,6 +9,7 @@ const CardList = ({
   onAddCard,
   className = '' 
 }) => {
+  // console.log는 Provider에서 처리하므로 제거
   return (
     <div className={`card-list ${className}`}>
       {cards.map(card => (

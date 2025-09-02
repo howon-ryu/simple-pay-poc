@@ -18,6 +18,15 @@ const initialState = {
 
 // 카드 리듀서 함수
 const cardReducer = (state, action) => {
+  console.log('🔄 Reducer 액션 실행:', {
+    액션타입: action.type,
+    액션데이터: action.payload,
+    현재상태: {
+      카드개수: state.cards.length,
+      선택된카드: state.selectedCard?.id || 'none'
+    }
+  });
+
   switch (action.type) {
     case CARD_ACTIONS.SET_CARDS:
       return {
@@ -67,6 +76,7 @@ const cardReducer = (state, action) => {
       };
       
     default:
+      console.log('⚠️ 알 수 없는 액션 타입:', action.type);
       return state;
   }
 };
@@ -77,6 +87,7 @@ const CardContext = createContext();
 // CardProvider 컴포넌트
 export const CardProvider = ({ children }) => {
   const [state, dispatch] = useReducer(cardReducer, initialState);
+  const [hasInitialized, setHasInitialized] = React.useState(false);
 
   // localStorage에서 카드 데이터 로드
   useEffect(() => {
@@ -101,6 +112,8 @@ export const CardProvider = ({ children }) => {
       }
     } catch (error) {
       console.error('카드 데이터 로드 중 오류:', error);
+    } finally {
+      setHasInitialized(true);
     }
   }, []);
 
@@ -157,6 +170,19 @@ export const CardProvider = ({ children }) => {
     // 유틸리티
     canPay: state.selectedCard && state.selectedCard.isActive
   };
+
+  // 초기화 완료 후 첫 번째 렌더링에서만 로그 출력
+  if (hasInitialized && !window.providerLogShown) {
+    console.log('🏪 Provider 초기 상태:', {
+      제공되는값: {
+        카드개수: value.cards.length,
+        선택된카드: value.selectedCard ? `${value.selectedCard.company} ${value.selectedCard.number}` : 'none',
+        결제가능: value.canPay,
+        함수들: ['addCard', 'deleteCard', 'selectCard', 'updateCard']
+      }
+    });
+    window.providerLogShown = true;
+  }
 
   return (
     <CardContext.Provider value={value}>
